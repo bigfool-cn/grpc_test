@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "./";
+
+message StreamRequest {
+  string stream_data = 1;
+}
+
+message SimpleReponse {
+  int64 code = 1;
+  string value = 2;
+}
+
+service StreamClient {
+  rpc RouteList(stream StreamRequest) returns (SimpleReponse) {}
+}
