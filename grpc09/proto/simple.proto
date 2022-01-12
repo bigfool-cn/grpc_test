@@ -1,0 +1,32 @@
+syntax="proto3";
+
+package proto;
+
+option go_package="./;proto";
+
+// protoc --proto_path=F:/GoPath/src --proto_path=. --govalidators_out=./ --go_out=plugins=grpc:./ simple.proto
+
+// github.com/mwitkow/go-proto-validators放到GoPath的src下
+// google/protobuf地址：https://github.com/protocolbuffers/protobuf/tree/master/src/google/protobuf/descriptor.proto
+// 把src文件夹中的google/protobuf目录下载到GOPATH目录下
+// 路径与import一致
+import "github.com/mwitkow/go-proto-validators/validator.proto";
+
+
+message InnerMessage {
+  // some_integer can only be in range (0, 100).
+  int32 some_integer = 1 [(validator.field) = {int_gt: 0, int_lt: 100}];
+  // some_float can only be in range (0;1).
+  double some_float = 2 [(validator.field) = {float_gte: 0, float_lte: 1}];
+}
+
+message OuterMessage {
+  // important_string must be a lowercase alpha-numeric of 5 to 30 characters (RE2 syntax).
+  string important_string = 1 [(validator.field) = {regex: "^[a-z]{2,5}$"}];
+  // proto3 doesn't have `required`, the `msg_exist` enforces presence of InnerMessage.
+  InnerMessage inner = 2 [(validator.field) = {msg_exists : true}];
+}
+
+service Simple {
+  rpc Route(InnerMessage) returns (OuterMessage) {}
+}

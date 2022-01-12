@@ -37,7 +37,7 @@ func AuthInterceptor(ctx context.Context) (context.Context, error) {
 		return nil, err
 	}
 
-	tokenInfo, err := ParseToken(token)
+	tokenInfo, err := parseToken(token)
 	if err != nil {
 		return nil, grpc.Errorf(codes.Unauthenticated, " %v", err)
 	}
@@ -48,8 +48,8 @@ func AuthInterceptor(ctx context.Context) (context.Context, error) {
 	return newCtx, nil
 }
 
-// ParseToken 解析token
-func ParseToken(token string) (TokenInfo, error) {
+// parseToken 解析token
+func parseToken(token string) (TokenInfo, error) {
 	var tokenInfo TokenInfo
 
 	sDec, err := base64.StdEncoding.DecodeString(token)
