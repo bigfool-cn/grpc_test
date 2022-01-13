@@ -10,7 +10,9 @@ import "grpc10/proto/google/api/annotations.proto";
 // 生成simple.validator.pb.go和simple.pb.go
 // protoc --govalidators_out=. --go_out=plugins=grpc:./ ./simple.proto
 // 生成simple.pb.gw.go
-// protoc --grpc-gateway_out=logtostderr=true:./ ./simple.proto
+// protoc --grpc-gateway_out=logtostderr=true:./ ./simple.
+
+// 本机 protoc --proto_path=F:/GoPath/src --proto_path=D:/Coding/GoProject/grpc_test/grpc10/proto --proto_path=.  --swagger_out=logtostderr=true:./ .\grpc10\proto\simple.proto
 
 message InnerMessage {
   int32 some_integer = 1 [(validator.field) = {int_gt: 0, int_lt: 100}];
