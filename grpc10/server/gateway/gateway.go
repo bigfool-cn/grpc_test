@@ -7,7 +7,7 @@ import (
 	"golang.org/x/net/http2/h2c"
 	"google.golang.org/grpc"
 	pb "grpc_test/grpc10/proto"
-	"grpc_test/grpc10/server/swagger"
+	"grpc_test/grpc10/swagger"
 	"log"
 	"net/http"
 	"strings"

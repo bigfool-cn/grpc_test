@@ -11,6 +11,8 @@ require (
 	github.com/grpc-ecosystem/grpc-gateway v1.16.0
 	github.com/jteeuwen/go-bindata v3.0.7+incompatible // indirect
 	github.com/mwitkow/go-proto-validators v0.3.2
+	github.com/shurcooL/httpfs v0.0.0-20190707220628-8d4bc4ba7749 // indirect
+	github.com/shurcooL/vfsgen v0.0.0-20200824052919-0d455de96546 // indirect
 	go.uber.org/zap v1.20.0
 	golang.org/x/net v0.0.0-20220105145211-5b0dc2dfae98
 	golang.org/x/oauth2 v0.0.0-20211104180415-d3ed0bb246c8 // indirect

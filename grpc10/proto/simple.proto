@@ -6,12 +6,15 @@ option go_package="./;proto";
 
 import "github.com/mwitkow/go-proto-validators/validator.proto";
 import "grpc10/proto/google/api/annotations.proto";
+import "grpc10/proto/google/options/annotations.proto";
+
 
 // 生成simple.validator.pb.go和simple.pb.go
 // protoc --govalidators_out=. --go_out=plugins=grpc:./ ./simple.proto
 // 生成simple.pb.gw.go
 // protoc --grpc-gateway_out=logtostderr=true:./ ./simple.
 
+// .编译生成simple.swagger.json
 // 本机 protoc --proto_path=F:/GoPath/src --proto_path=D:/Coding/GoProject/grpc_test/grpc10/proto --proto_path=.  --swagger_out=logtostderr=true:./ .\grpc10\proto\simple.proto
 
 message InnerMessage {
@@ -24,11 +27,42 @@ message OuterMessage {
   InnerMessage inner = 2 [(validator.field) = {msg_exists : true}];
 }
 
+option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
+  security_definitions: {
+    security: {
+      key: "bearer"
+      value: {
+        type: TYPE_API_KEY
+        in: IN_HEADER
+        name: "Authorization"
+        description: "Authentication token, prefixed by Bearer: Bearer <token>"
+      }
+    }
+  },
+  security: {
+    security_requirement: {
+      key: "bearer"
+    }
+  }
+  info: {
+    title: "grpc gateway sample";
+    version: "1.0";
+    license: {
+      name: "MIT";
+    };
+  }
+  schemes: HTTP
+};
+
 service Simple {
   rpc Route(InnerMessage) returns (OuterMessage) {
     option (google.api.http) ={
       post:"/v1/example/route"
       body:"*"
     };
+    // //禁用bearer token
+    // option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+    //   security: { } // Disable security key
+    // };
   }
 }
